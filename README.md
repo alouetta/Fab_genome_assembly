@@ -13,22 +13,24 @@ The steps performed are listed below in the order they need to be executed, alon
 
 
 ### 1) Create folders and download files
-- Create a new folder to host all the files: mkdir /path/to/my/Project
-- Create a sub-folder for output and error files:
-mkdir /path/to/my/Project/Output_and_Error_files
+- Create a new folder to host all the files
+  - mkdir /path/to/my/Project
+- Create a sub-folder for output and error files
+  - mkdir /path/to/my/Project/Output_and_Error_files
 - Create sub-folders for all the fasta reads
-mkdir /path/to/my/Project/all_input_reads
-mkdir /path/to/my/Project/all_input_reads/fastq_pass
-mkdir /path/to/my/Project/all_input_reads/fastq_fail
+  - mkdir /path/to/my/Project/all_input_reads
+  - mkdir /path/to/my/Project/all_input_reads/fastq_pass
+  - mkdir /path/to/my/Project/all_input_reads/fastq_fail
 *Repeat replacing barcode09 with barcode10 and then barcode02)*
-- Copy all of the reads in fastq fail to our working directory 
-cp -r /workhere/students_2023/Matt_resources/IC/IC_199/Haloferax_10_barcodes/20231114_1133_3E_PAH51710_e2e481f9/fastq_fail/barcode09 /path/to/my/Project/barcode09/all_input_reads/fastq_fail 
+- Copy all of the reads from barcodes 02, 09 and 10 in fastq fail to our working directory 
+cp -r /path/to/folder/IC/IC_199/Haloferax_10_barcodes/20231114_1133_3E_PAH51710_e2e481f9/fastq_fail/barcode09 /path/to/my/Project/barcode02/all_input_reads/fastq_fail 
 
-*Repeat for barcode10 and barcode02*
-- Copy all of the reads in fastq pass to our working directory
-cp -r /workhere/students_2023/Matt_resources/IC/IC_199/Haloferax_10_barcodes/20231114_1133_3E_PAH51710_e2e481f9/fastq_pass/barcode09 /path/to/my/Project/all_input_reads/fastq_pass 
+*Repeat for barcode09 and barcode10*
+- Copy all of the reads from barcodes 02, 09 and 10 in fastq pass to our working directory
+cp -r /workhere/students_2023/Matt_resources/IC/IC_199/Haloferax_10_barcodes/20231114_1133_3E_PAH51710_e2e481f9/fastq_pass/barcode02 /path/to/my/Project/all_input_reads/fastq_pass 
 
-*Repeat for barcode10 and barcode02*
+*Repeat for barcode09 and barcode10*
+
 - Download the scripts folder from the github page and put it in the Projects folder using scp -r path/to/Downloads/scripts username@remote_host:/path/to/my/Project
 
 ### 2)Nanoplot assessment of reads
@@ -42,11 +44,93 @@ To get summary statistics on each set of reads e.g. mean read length, N50, nanop
 - Command line code = sbatch path/to/your/scripts/Nanoplot/barcode*_nanoplot_stats.sh (replace * with barcodde number corresponding to script)
 
 ### 3) Merge the data ready for assembly
-The reads for each barcode are merged using bash code.
+Merge the reads for each barcode using 1 bash code script prior to assembly.
 
-Script = merge_all_fastq.sh
-Input data = .fastq (gzipped)
-Package/version = bash
-Reference/(link) = n/a
-Output data = fastq (gzipped)
-Command line code = sbatch /path/to/my/Project/scripts/Merge_data/merge_all_fastq.sh
+- Script = merge_all_fastq.sh
+- Input data = .fastq (gzipped)
+- Package/version = bash
+- Reference/(link) = n/a
+- Output data = fastq (gzipped)
+- Command line code = sbatch /path/to/my/Project/scripts/Merge_data/merge_all_fastq.sh
+
+### 4) Assembly of genomes
+Two assemblers are used: Miniasm and Unicycler  
+
+## 4.1 Minimap/miniasm
+*In order to assemble using miniasm, .paf files must first be created using minimap*
+- Scripts = minimap_all_longread_assembly.sh and miniasm_all_longreadassemly_and_stats.sh
+- Input data = fastq (gzipped)
+- Package/version = minimap 0.2 & Miniasm 0.3 
+- Reference/(link) =  (https://github.com/lh3/minimap) (https://github.com/lh3/miniasm)
+- Output data = .gfa 
+- Command line code =
+
+## 4.2 Unicycler
+- Script = unicycler_all_longread_assembly.sh
+- Input data = fastq (gzipped)
+- Package/version = Unicycler 0.5
+- Reference/(link) = https://doi.org/10.1371/journal.pcbi.1005595)/https://github.com/rrwick/Unicycler) 
+- Output data = .fasta (assemblies) and .txt (assembly stats)
+- Command line code =
+ 
+## 5) Visualise the assembly using Bandage
+Script = 
+Input data = .gfa
+Package/version = Bandage 0.81
+Reference/(link) = http://rrwick.github.io/Bandage/
+Output data = .png (assembly graph)
+
+## 6) Get sequence fragments to put into ncbi website for species identification
+Fragments of 100,000bp are extracted from each unicycler pass assembly for carrying out searches on the ncbi website to identify species. A Python script is used, to download Python vist (https://www.python.org/downloads/) and follow the instructions. The script will extract one fragment from each contig.
+- Script = specific_fasta_grab.py
+- Input data = .fasta 
+- Package/version = Python 3.11.4
+- Reference/(link) = 
+- Output data = .fna
+- Command line code = python3 /path/to/my/Project/scripts/specific_fasta_grab.py -f /path/to/my/Project/unicycler_all_output/unicycler_longread_pass_output/unicycler_longread_pass_assembly.fasta -o /path/to/my/Project/blast_search_fasta_sequences/unicycler_longread_pass --fragment_length 100000
+  
+## 7) Assembly stats with Quast
+To assess assembly quality, compare assembly methods and compare assemblies against reference genomes. Repeat quast for both reference genomes and do a final quast with both references.
+
+Scripts = quast_all_longread_QC_med.sh, quast_all_longread_QC_volc.sh & quast_all_longread_QC_volc_and_med.sh
+Input data = .fasta (query assemblies) & .fna (reference files from ncbi website)
+Package/version = Quast 5.2
+Reference/(link) = https://github.com/ablab/quast
+Output data = plots and reports in .pdf, .txt, .html
+
+
+6) Evaluate orthologs in the barcode02 assembly using Busco
+The presence of common orthologous genes against a relevant dataset, in this case archaea odb10, is assessed for each of the assemblies.
+
+Script = busco_all_assem.sh
+Input data = .fasta 
+Package/version = Busco 5.6
+Reference/(link) = https://doi.org/10.1093/molbev/msab199
+Output data = .txt, .tsv & .log
+
+10) Annotate the barcode02 genome with Prokka
+To see which genes from which of the two species are in barcode02 data
+Script = prokka_annotation.sh
+Input data = .fasta and .faa
+Package/version = 1.14.5
+Reference/(link) = https://doi.org/10.1093/bioinformatics/btu153
+Output data = .gff, .fna, .faa and others
+
+12) Visualise the barcode02 genome with GenoVi
+Script = genovi_annotation.sh
+Command line code = sbatch /workhere/students_2023/Group_2_VDJ/VM_02/scripts/genovi_annotation.sh
+Input data = .gbk (prokka output)
+Package/version = GenoVi 0.2.16
+Reference/(link) = https://doi.org/10.1371/journal.pcbi.1010998
+Output data = .png & .svg
+
+
+14) Check for genes due to genetic engineering
+
+- Script =
+- Input data =
+- Package/version =
+- Reference/(link) =
+- Output data =
+- Command line code =
+			
