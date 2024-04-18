@@ -42,6 +42,8 @@ To get summary statistics on each set of reads e.g. mean read length, N50, nanop
 - Command line code = sbatch path/to/your/scripts/Nanoplot/barcode*_nanoplot_stats.sh (replace * with barcodde number corresponding to script)
 
 ### 3) Merge the data ready for assembly
+The reads for each barcode are merged using bash code.
+
 Script = merge_all_fastq.sh
 Input data = .fastq (gzipped)
 Package/version = bash
