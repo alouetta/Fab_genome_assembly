@@ -1,6 +1,6 @@
 ## Part 1 Instructions
 
-The steps to be performed are listed below in the order they need to be executed, along with the name of the relevant scripts for each step, details of packages and the types of input and output data. All scripts for Part 1 are in the folder (scripts_part1). Most packages are available on the shared conda environments on the hpc with the code for activation of the environments incorporated into each script. The only packages you may need to download are Python and Bandage, see the relevant sections below for information on downloading.
+The steps to be performed are listed below in the order they need to be executed, along with the name of the relevant scripts for each step, details of packages and the types of input and output data. All scripts for Part 1 are in the folder [scripts_part1](scripts_part1). Most packages are available on the shared conda environments on the hpc with the code for activation of the environments incorporated into each script. The only packages you may need to download are Python and Bandage, see the relevant sections below for information on downloading.
 
 
 ### 1) Create folders and download files
