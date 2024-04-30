@@ -19,7 +19,7 @@ The steps to be performed are listed below in the order they need to be executed
 cp -r /path/to/folder/long_reads/fastq_fail/barcode02 /path/to/my/Part_1/all_input_reads/fastq_fail/barcode02
 - Copy all of the reads from barcode 02 in fastq pass to our working directory
 cp -r /path/to/folder/long_reads/fastq_pass/barcode02 /path/to/my/Part_1/all_input_reads/fastq_pass/barcode02
-- Copy all of the Illumina shortreads from barcode 02 to our working directory
+- Copy all of the Illumina short-reads from barcode 02 to our working directory
 cp -r /path/to/folder/short_reads/fastq/*s* /path/to/my/Part_1/all_input_reads/short_reads
 - Download the scripts folder from the github page and put it in the Part_1 folder using scp -r path/to/Downloads/scripts_part1 username@remote_host:/path/to/my/Project
 
@@ -43,7 +43,7 @@ To get summary statistics on each set of reads e.g. mean read length, number of 
 - Command line code = sbatch path/to/my/scripts_part1/Part1_nanoplot_allreads.sh 
 
 ### 4) Assembly of genomes
-For our genome carry out a longread assembly, a short-read assembly and a hybrid assembly.
+For our genome carry out a long-read assembly, a short-read assembly and a hybrid assembly.
 Two assemblers are used for comparison purposes; Miniasm and Unicycler. The short-read and hybrid data are assembled with Unicycler only and the longread data are assembled with both Miniasm and Unicycler.
 
 #### 4.1) Create .paf files using Minimap
@@ -83,7 +83,7 @@ Upload the.gfa files obtained from the assemblers by selecting File/Load graph. 
 - Output data = .png (assembly graph)
 
 ### 6) Get sequence fragments to search the ncbi website for species identification
-Fragments of 100,000bp are extracted from our longread unicycler pass assembly to search on the ncbi website to identify species. The script is written in Python, to download Python vist (https://www.python.org/downloads/) and follow the instructions. The script will extract one fragment per contig.
+Fragments of 100,000bp are extracted from our long-read unicycler pass assembly to search on the ncbi website to identify species. The script is written in Python, to download Python vist (https://www.python.org/downloads/) and follow the instructions. The script will extract one fragment per contig.
 - Scripts = specific_fasta_grab.py 
 - Input data = .fasta 
 - Package/version = Python 3.11.4
