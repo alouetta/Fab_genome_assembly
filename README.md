@@ -15,7 +15,7 @@ The instructions for Part 1 are given in [Part1_instructions.md](Part1_instrcuti
 
 3) Searching in blast using the assembly fragments should result in the identity being Haloferax volcanii. 
 
-4) Busco and Quast results should confirm that Unicycler gives more complete assemblies than Miniasm. With the Miniasm longread pass assembly only 7 out of 194 orthologs are found with Busco compared to 176 with the Unicycler longread pass assembly. The shortread and hybrid Unicycler assemblies should give even better results with all orthologs found. 
+4) Busco and Quast results should confirm that Unicycler gives more complete assemblies than Miniasm. With the Miniasm longread pass assembly only 7 out of 194 orthologs are found with Busco compared to 176 with the Unicycler longread pass assembly. The shortread and hybrid Unicycler assemblies should give even better results with all orthologs found. For Part 2 we discrad the use of Miniasm as we know the assemblies are better with Unicycler.
 
 
 ### Part 2
