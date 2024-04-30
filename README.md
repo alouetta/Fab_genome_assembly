@@ -4,7 +4,7 @@
 This task is split into 2 parts. In Part 1 you are provided with longread and shortread sequencing data for one bacterial organism (barcode02) and tasked with assembling the reads and assessing the best methods for assembly and how the different types of read affect the assemblies. In Part 2 you are provided with Nanopore long-read data from 3 different bacterial samples. Two of the bacteria have been cultured together (barcode09 and barcode10) and the third is the resulting progeny after culturing (barcode02). The aim of Part 2 is to assemble all 3 genomes and to determine for each sample: i) the species, ii) chromosome structure, iii) genome completeness and iv) to determine what might have happened to the genomes. 
 
 ## Methods
-The instructions for Part 1 are given in  and the instructions for Part 2 in [Part2_intructions.md]. The scripts for each part are in separate folders [scripts_part1] and [scripts-part2]. 
+The instructions for Part 1 are given in[  ][(https://github.com/alouetta/Fab_genome_assembly/tree/09b8159a7257fa0f11c0c428ba3b20c77373d47a/scripts_part1)] and the instructions for Part 2 in [Part2_intructions.md]. The scripts for each part are in separate folders [scripts_part1] and [scripts-part2]. 
 
 ## Expected outcomes
 
